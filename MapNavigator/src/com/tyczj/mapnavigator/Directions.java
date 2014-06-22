@@ -12,7 +12,7 @@ public class Directions {
 	private String directions;
 	
 	public enum DrivingMode{
-		DRIVING,MASS_TRANSIT,BYCICLE,WALKING
+		DRIVING, MASS_TRANSIT, BYCICLE, WALKING
 	}
 	
 	public enum Avoid{

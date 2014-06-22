@@ -36,7 +36,20 @@ public class Navigator {
 	private long arrivalTime;
 	private String avoid;
 	private ArrayList<Polyline> lines = new ArrayList<Polyline>();
-	
+
+    public enum Mode {
+        DRIVING,
+        TRANSIT,
+        BICYCLING,
+        WALKING;
+    }
+
+    public enum Avoid {
+        TOLLS,
+        HIGHWAY;
+    }
+
+
 	public Navigator(GoogleMap map, LatLng startLocation, LatLng endLocation){
 		this.startPosition = startLocation;
 		this.endPosition = endLocation;
@@ -123,6 +136,41 @@ public class Navigator {
 			break;
 		}
 	}
+
+
+    public void setMode(Mode mode, long arrivalTime, Avoid avoid) {
+        switch (mode) {
+            case DRIVING:
+                this.mode = "driving";
+                break;
+            case TRANSIT:
+                this.mode = "transit";
+                this.arrivalTime = arrivalTime;
+                break;
+            case BICYCLING:
+                this.mode = "bicycling";
+                break;
+            case WALKING:
+                this.mode = "walking";
+                break;
+            default:
+                this.mode = "driving";
+                break;
+        }
+
+        switch (avoid) {
+            case TOLLS:
+                this.avoid = "tolls";
+                break;
+            case HIGHWAY:
+                this.avoid = "highways";
+                break;
+            default:
+                break;
+        }
+    }
+
+
 	
 	/**
 	 * Get all direction information
