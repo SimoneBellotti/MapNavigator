@@ -211,6 +211,20 @@ public class Navigator {
 		return lines;
 	}
 
+    /**
+     * Removes the polylines drawn on map
+     */
+    public void clearPathLines() {
+        if (lines != null && !lines.isEmpty()) {
+            synchronized (lines) {
+                for (Polyline polyline : lines) {
+                    polyline.remove();
+                }
+            }
+            lines.clear();
+        }
+    }
+
 	private class PathCreator extends AsyncTask<Void,Void,Directions>{
 
 		@Override
