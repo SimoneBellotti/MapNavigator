@@ -1,5 +1,6 @@
 package com.tyczj.mapnavigator;
 
+import java.lang.Override;
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
@@ -225,9 +226,23 @@ public class Navigator {
         }
     }
 
-	private class PathCreator extends AsyncTask<Void,Void,Directions>{
+	private class PathCreator extends AsyncTask<Void,Void,Directions> {
 
-		@Override
+        private ProgressDialog progressDialog;
+
+        public PathCreator(Context context) {
+            progressDialog = new ProgressDialog(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if (progressDialog != null && !progressDialog.isShowing()) {
+                progressDialog.setMessage(context.getString(R.string.calculate));
+                progressDialog.show();
+            }
+        }
+
+        @Override
 		protected Directions doInBackground(Void... params) {
 			if(mode == null){
 				mode = "driving";
@@ -259,6 +274,7 @@ public class Navigator {
 		            if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
 		            	
 		            	String s = EntityUtils.toString(response.getEntity());
+                        Log.d("JSON DIRECTIONS", "DIRECTIONS: " + s);
 			            return new Directions(s);
 		            }
 		            
@@ -289,6 +305,10 @@ public class Navigator {
 				if(listener != null){
 					listener.onPathSetListener(directions);
 				}
+
+                if (progressDialog != null && progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
 				
 			}
 		}
